@@ -1,10 +1,43 @@
 import { FaVoteYea } from "react-icons/fa";
 import { FcDislike } from "react-icons/fc";
 import { BiDislike, BiLike } from "react-icons/bi";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Authentication/AuthProvider";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
+import useAxiosPublic from "../../Hook/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
-const Statisties = ({ details }) => {
-    const { questionOne, title, description, voted, like, dislike,timestamp} = details;
+const Statisties = ({id}) => {
+    const [likes, setlikes] = useState(true);
+    const {user} = useContext(AuthContext);
+    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
+    
+    const { data: details, isPending, isFetching, refetch } = useQuery({
+        queryKey: ['surveddys'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`details/${id}`)
+            return res.data;
+        }
+    })
+
+    if (isPending || isFetching) {
+        return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
+    }
+
+    const { questionOne, title, description, voted, like, dislike,timestamp, _id, likesBy} = details;
     const date = timestamp.slice(0,10)
+    console.log(likesBy)
+
+    const handleLike = () =>{
+        setlikes(!likes)
+        console.log(likes, user.email)
+        axiosSecure.post(`/likes?value=${likes}&user=${user.email}&id=${_id}`)
+        .then(res=>{
+            console.log(res.data)
+            refetch()
+        })
+    }
 
     return (
         <div className="stats shadow bg-lime-100">
@@ -15,7 +48,7 @@ const Statisties = ({ details }) => {
                 </div>
                 <div className="stat-title">Total Likes</div>
                 <div className="stat-value text-primary">{like}</div>
-                <div className="stat-desc"> <button className="btn btn-sm mt-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm text-center">Add Like<BiLike></BiLike></button></div>
+                <div className="stat-desc"> <button onClick={handleLike} className="btn btn-sm mt-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm text-center">Add Like<BiLike></BiLike></button></div>
             </div>
 
             <div className="stat">
@@ -24,7 +57,7 @@ const Statisties = ({ details }) => {
                 </div>
                 <div className="stat-title">Total Dislike</div>
                 <div className="stat-value text-secondary">{dislike}</div>
-                <div className="stat-desc"><button className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Add Dislike <BiDislike></BiDislike></button></div>
+                <div className="stat-desc"><button  className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Add Dislike <BiDislike></BiDislike></button></div>
             </div>
 
             <div className="stat">

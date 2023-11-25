@@ -27,7 +27,7 @@ const SurveyDetails = () => {
         }
     })
 
-   
+
     // useEffect(() => {
     //     if (details?.voted?.includes(user.email)) {
     //         setAlreadyVoted(true);
@@ -62,7 +62,7 @@ const SurveyDetails = () => {
         setResponse(event.target.value);
     };
 
-   
+
 
     const handleSubmit = () => {
         // Handle the submission logic, e.g., send the response to the server
@@ -104,7 +104,7 @@ const SurveyDetails = () => {
                         <h3 className="text-gray-600 font-semibold text-xl"><span className="text-red-500">Question: </span>{questionOne}</h3>
 
                         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
-                            
+
                             <div className="flex">
                                 <div>
                                     <Chart
@@ -115,17 +115,17 @@ const SurveyDetails = () => {
                                         height={"400px"}
                                     />
                                 </div>
-                                <div className="flex justify-center items-center"> 
-                                   <div>
-                                   <h3 className="text-gray-700 font-semibold text-xl"><span className="text-2xl text-red-500">Congratilation!</span> You successfully Participate This Survey <IoHappyOutline className="text-2xl mr-1 inline-block"></IoHappyOutline> <br /> Here Is The Survey Result <FaArrowAltCircleRight className="inline-block text-xl"></FaArrowAltCircleRight></h3>
-                                    <div className="flex items-center justify-center gap-3 pt-6">
-                                        <h3 className="text-lg font-medium text-[#0B0B0B">Yes</h3>
-                                        <div className="h-2.5 w-16 mt-1 rounded-sm bg-[#5856d6]"></div>
-                                        <h3 className="text-lg font-medium text-[#0B0B0B">No</h3>
-                                        <div className="h-2.5 w-16 rounded-sm mt-1 bg-[#ff2d55]"></div>
+                                <div className="flex justify-center items-center">
+                                    <div>
+                                        <h3 className="text-gray-700 font-semibold text-xl"><span className="text-2xl text-red-500">Congratilation!</span> You successfully Participate This Survey <IoHappyOutline className="text-2xl mr-1 inline-block"></IoHappyOutline> <br /> Here Is The Survey Result <FaArrowAltCircleRight className="inline-block text-xl"></FaArrowAltCircleRight></h3>
+                                        <div className="flex items-center justify-center gap-3 pt-6">
+                                            <h3 className="text-lg font-medium text-[#0B0B0B">Yes</h3>
+                                            <div className="h-2.5 w-16 mt-1 rounded-sm bg-[#5856d6]"></div>
+                                            <h3 className="text-lg font-medium text-[#0B0B0B">No</h3>
+                                            <div className="h-2.5 w-16 rounded-sm mt-1 bg-[#ff2d55]"></div>
 
+                                        </div>
                                     </div>
-                                   </div>
                                 </div>
                                 {/* <div className="flex flex-col md:flex-row justify-center gap-4">
                                     <div className="flex justify-center gap-2">
@@ -220,7 +220,10 @@ const SurveyDetails = () => {
                         <p className="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">{description}</p>
                         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
 
-                            <Statisties details={details}></Statisties>
+                            {/* ------------------statisties------------------------------------- */}
+                            <div>
+                                <Statisties id={id}></Statisties>
+                            </div>
 
                             <button className="btn text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={() => document.getElementById('my_modal_1').showModal()}>Participate Now</button>
                         </div>
