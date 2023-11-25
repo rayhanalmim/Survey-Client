@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthProvider";
 import { updateProfile } from "firebase/auth";
+import useAxiosPublic from "../Hook/useAxiosPublic";
 
 const SingUp = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const { createUser } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
 
     const handleSingUp = (e) => {
         e.preventDefault();
@@ -54,15 +57,26 @@ const SingUp = () => {
                     displayName: name, 
                     photoURL: img,
                 })
-
-                .then(()=>{})
+                .then(()=>{
+                    console.log(result)
+                    const name =  currentUser.displayName;
+                    const email = currentUser.email;
+                    const role = 'user';
+                    const userInfo = { name, email, role };
+                    console.log(userInfo)
+                    axiosPublic.post(`/users`, userInfo)
+                        .then(res => {
+                            if (res.data.insertedId) {
+                                console.log(res.data);
+                                toast.success('Congratulations! Account created successfully', {
+                                    position: "top-left",
+                                    theme: "dark",
+                                });
+                            }
+                            
+                        })
+                })
                 .catch(error=>console.log(error))
-
-                e.target.reset();
-                toast.success('Congratulations! Account created successfully', {
-                    position: "top-left",
-                    theme: "dark",
-                });
             })
             .catch(error => {
                 const errorMessage = error.message;

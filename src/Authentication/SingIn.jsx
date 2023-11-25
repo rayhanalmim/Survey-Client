@@ -5,10 +5,12 @@ import { FcGoogle } from 'react-icons/fc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthProvider";
+import useAxiosPublic from "../Hook/useAxiosPublic";
 
 const SingIn = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
     const emailRef = useRef(null);
     const { singIn, singInWithGoogle, looding } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
@@ -47,12 +49,30 @@ const SingIn = () => {
     const handleGoogleLogin = () => {
 
         singInWithGoogle()
-            .then(() => {
-                toast.success('log in successfully', {
-                    position: "top-left",
-                    theme: "dark",
-                });
-                navigate(location?.state ? location.state : '/')
+            .then((res) => {
+
+                console.log(res.user);
+                const name = res.user.displayName;
+                const email = res.user.email;
+                const role = 'user'
+                const userInfo = { name, email, role };
+                console.log(userInfo)
+                axiosPublic.post(`/users`, userInfo)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data._id) {
+                        console.log('updated in database successfully')
+                        
+                    }
+                    toast.success('log in successfully', {
+                        position: "top-left",
+                        theme: "dark",
+                    });
+                    navigate(location?.state ? location.state : '/')
+                })
+
+                
+                
             })
             .catch(error => {
                 const errorMessage = error.message;
