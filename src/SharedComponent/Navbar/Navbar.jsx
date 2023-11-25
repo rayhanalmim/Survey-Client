@@ -38,7 +38,7 @@ const Navbar = ({toggleMode}) => {
     }
 
     return (
-        <div className='navbar pb-2 bg-red-200'>
+        <div className='navbar pb-2 bg-[#D6FFB7]'>
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">

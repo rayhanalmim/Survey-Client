@@ -3,6 +3,9 @@ import Root from "./Root";
 import Home from "../Component/HomePage/Home";
 import Surveys from "../Component/Surveys/Surveys";
 import UpgradePro from "../Component/MemberShip/UpgradePro";
+import SurveyDetails from "../Component/Surveys/SurveyDetails";
+import SingIn from "../Authentication/SingIn";
+import SingUp from "../Authentication/SingUp";
 
 const Route = createBrowserRouter([
     {
@@ -20,6 +23,18 @@ const Route = createBrowserRouter([
             {
                 path:'upgrade',
                 element:<UpgradePro></UpgradePro>
+            },
+            {
+                path:'details/:id',
+                element:<SurveyDetails></SurveyDetails>
+            },
+            {
+                path:'login',
+                element:<SingIn></SingIn>
+            },
+            {
+                path:'registration',
+                element:<SingUp></SingUp>
             }
         ]
     }
