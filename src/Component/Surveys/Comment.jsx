@@ -1,17 +1,61 @@
 import React from 'react';
+import useAxiosSecure from '../../Hook/useAxiosSecure';
+import ShowComment from './ShowComment';
 
-const Comment = ({details}) => {
-    const { questionOne, title, description, voted, like, dislike, } = details;
+const Comment = ({ details, user, refetch }) => {
+    const axiosSecure = useAxiosSecure();
+    const { questionOne, title, description, voted, like, dislike, _id, comment} = details;
+
+    const handleComment = (e) =>{
+        e.preventDefault();
+        const comment = e.target.comment.value;
+        const name = user.displayName;
+        const commentInfo = {comment, name}
+        console.log(commentInfo)
+
+        axiosSecure.post(`/comment?id=${_id}`, commentInfo)
+        .then(res=>{
+            console.log(res.data)
+            refetch()
+        })
+    }
+
+    
     return (
-            <li className="mb-4 ms-6">
-                <div className="p-4 border border-blue-700 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
-                    <div className="items-center justify-between mb-3 sm:flex">
-                        <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">2 hours ago</time>
-                        <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">Thomas Lean commented on  <a href="#" className="font-semibold text-gray-900 dark:text-white hover:underline"></a>{title}</div>
+        <div>
+            <ol className="relative border-s pt-5 border-gray-200 dark:border-gray-700">
+                {
+                    comment.length ? 
+                    comment.map(item=> <ShowComment key={item.comment} item={item}></ShowComment>) : <div className="p-3 mb-6 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"><h3>No comment Yet</h3></div>
+                }
+            </ol>
+            <div>
+                {/* --------------------inputComment---------------------- */}
+                <form onSubmit={handleComment}>
+                    <div className="w-full mb-4 border border-gray-200 rounded-lg bg-lime-100 dark:bg-gray-700 dark:border-gray-600">
+                        <div className="px-4 py-2 rounded-t-lg dark:bg-gray-800">
+                            <label className="sr-only">Your comment</label>
+                            <textarea name="comment" id="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-lime-100 border-2 pl-2 pt-1 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                        </div>
+                        <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                            <button type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                                Post comment
+                            </button>
+                            <div className="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                                <button type="button" className="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                    <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
+                                        <path stroke="currentColor" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6" />
+                                    </svg>
+                                    <span className="sr-only">Attach file</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300">Hi ya'll! I wanted to share a webinar zeroheight is having regarding how to best measure your design system! This is the second session of our new webinar series on #DesignSystems discussions where we'll be speaking about Measurement.</div>
-                </div>
-            </li>
+                </form>
+                <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
+
+            </div>
+        </div>
     );
 };
 

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Statisties = ({id}) => {
     const [likes, setlikes] = useState(true);
+    const [disLike, setDisLike] = useState(true);
     const {user} = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
@@ -25,17 +26,30 @@ const Statisties = ({id}) => {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
     }
 
-    const { questionOne, title, description, voted, like, dislike,timestamp, _id, likesBy} = details;
+    const { questionOne, title, description, voted, like, dislike,timestamp, _id, likesBy, dislikesBy} = details;
     const date = timestamp.slice(0,10)
-    console.log(likesBy)
+    console.log('dislike',dislikesBy)
+    console.log('likes',likesBy)
 
     const handleLike = () =>{
         setlikes(!likes)
+        console.log(likes)
         console.log(likes, user.email)
         axiosSecure.post(`/likes?value=${likes}&user=${user.email}&id=${_id}`)
         .then(res=>{
             console.log(res.data)
             refetch()
+            setDisLike(true)
+        })
+    }
+    const handleDislike = () =>{
+        setDisLike(!disLike)
+        console.log(disLike, user.email)
+        axiosSecure.post(`/dislike?value=${disLike}&user=${user.email}&id=${_id}`)
+        .then(res=>{
+            console.log(res.data)
+            refetch()
+            setlikes(true)
         })
     }
 
@@ -57,7 +71,7 @@ const Statisties = ({id}) => {
                 </div>
                 <div className="stat-title">Total Dislike</div>
                 <div className="stat-value text-secondary">{dislike}</div>
-                <div className="stat-desc"><button  className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Add Dislike <BiDislike></BiDislike></button></div>
+                <div className="stat-desc"><button onClick={handleDislike} className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Add Dislike <BiDislike></BiDislike></button></div>
             </div>
 
             <div className="stat">
