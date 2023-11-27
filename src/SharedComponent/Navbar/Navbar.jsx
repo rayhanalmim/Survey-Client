@@ -4,18 +4,27 @@ import { ToastContainer, toast } from "react-toastify";
 import PropTypes from 'prop-types';
 import './navLink.css';
 import { AuthContext } from "../../Authentication/AuthProvider";
+import useUserRole from "../../Hook/useUserRole";
+import { MdVerified } from "react-icons/md";
 
 const Navbar = ({toggleMode}) => {
     const { user, logOut, looding } = useContext(AuthContext);
+    const [userFromDb, ] = useUserRole()
+    console.log(userFromDb)
+    
 
     if (looding) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }
+    
 
     const navLink = <>
         <li className=''><NavLink to='/'>Home</NavLink></li>
         <li className=''><NavLink to='/surveys'>Survey</NavLink></li>
-        <li className=''><NavLink to='/upgrade'>Upgrade to PRO</NavLink></li>
+        {
+            userFromDb.role === 'proUser' ? '' : <li className=''><NavLink to='/upgrade'>Upgrade to PRO</NavLink></li>
+        }
+        <li className=''><NavLink to='/dashboard/adminhome'>dashboard</NavLink></li>
         
     </>
 
@@ -66,7 +75,9 @@ const Navbar = ({toggleMode}) => {
                 </button>
                 <div className="hidden md:block">
                     {
-                        user && <a className="btn btn-ghost normal-case text-xl">{user.displayName}</a>
+                        user && <div>{
+                            userFromDb.role === 'proUser' ? <a className="btn btn-ghost normal-case text-xl"><MdVerified className="text-blue-800"></MdVerified>{user.displayName}</a> : <a className="btn btn-ghost normal-case text-xl">{user.displayName}</a>
+                            }</div>
                     }
                 </div>
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar mr-2">

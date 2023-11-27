@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useAxiosPublic from "../../Hook/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Statisties from "./Statisties";
 import Comment from "./Comment";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
@@ -9,6 +9,7 @@ import { AuthContext } from "../../Authentication/AuthProvider";
 import { Chart } from "react-google-charts";
 import { IoHappyOutline } from "react-icons/io5";
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { MdReport } from "react-icons/md";
 
 
 const SurveyDetails = () => {
@@ -18,6 +19,7 @@ const SurveyDetails = () => {
     const { user, looding } = useContext(AuthContext);
     const { id } = useParams();
     const dataId = id;
+    const reportz = useRef();
 
 
     const { data: details, isPending, isFetching, refetch } = useQuery({
@@ -80,7 +82,7 @@ const SurveyDetails = () => {
 
     // -------------------------commentHandle---------------------------
 
-    
+
 
     // ---------------------------piChart--------------------------
 
@@ -95,6 +97,12 @@ const SurveyDetails = () => {
         legend: "none",
         backgroundColor: 'transparent',
     };
+
+    const handleReport = (e) =>{
+        e.preventDefault();
+        console.log('hutt')
+    }
+
 
     return (
         <div className="">
@@ -155,12 +163,13 @@ const SurveyDetails = () => {
                         </div>
                         <div>
                             <div>
-                                    {/* <Comment id={dataId}></Comment> */}
-                                
+                                {/* <Comment id={dataId}></Comment> */}
+                                <Comment user={user} refetch={refetch} details={details}></Comment>
+
                                 {/* ---------------------------comment--------------------------- */}
 
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -195,8 +204,49 @@ const SurveyDetails = () => {
                 </div> : <div>
                     {/* ------------------------------not_voted_user----------------------- */}
                     <div className="w-full p-4 text-center bg-[#F5FF90] shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                        <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">{title}</h5>
+                        <div className="flex">
+                            <div className="w-11/12">
+                                <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">{title}</h5>
+
+                            </div>
+                            <div className="flex-1">
+                                <button onClick={() => document.getElementById('report').showModal()}><MdReport className="text-2xl text-red-500"></MdReport></button>
+                            </div>
+                        </div>
+
+                        {/* ----------------------------modalForReport---------------------------------- */}
+
+                        {/* Open the modal using document.getElementById('ID').showModal() method */}
+                        {/* <dialog id="report" className="modal">
+                            <div className="modal-box">
+                                <form>
+                                <h3 className="font-bold text-lg text-left pb-3">Report Inappropriate Content</h3>
+                                <textarea  className="textarea textarea-bordered w-full" placeholder="Feedback" ></textarea>
+                                <div className="modal-action mt-2">
+                                    <div>
+                                        
+                                        <button className="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5  text-center= mb-2">Report</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </dialog> */}
+
+                        <dialog id="report" className="modal">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg text-left pb-3">Report Inappropriate Content</h3>
+                                <textarea ref={reportz} className="textarea textarea-bordered w-full" placeholder="Feedback" ></textarea>
+                                <div className="modal-action mt-2">
+                                    <form onSubmit={handleReport} method="dialog">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5  text-center= mb-2">Report</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
+
                         <p className="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">{description}</p>
+
                         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
 
                             {/* ------------------statisties------------------------------------- */}

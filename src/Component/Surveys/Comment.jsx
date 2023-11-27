@@ -1,8 +1,13 @@
 import React from 'react';
 import useAxiosSecure from '../../Hook/useAxiosSecure';
 import ShowComment from './ShowComment';
+import useUserRole from '../../Hook/useUserRole';
+import { FaRegStar } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 const Comment = ({ details, user, refetch }) => {
+    const [userFromDb, ] = useUserRole()
+    console.log(userFromDb)
     const axiosSecure = useAxiosSecure();
     const { questionOne, title, description, voted, like, dislike, _id, comment} = details;
 
@@ -29,7 +34,8 @@ const Comment = ({ details, user, refetch }) => {
                     comment.map(item=> <ShowComment key={item.comment} item={item}></ShowComment>) : <div className="p-3 mb-6 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"><h3>No comment Yet</h3></div>
                 }
             </ol>
-            <div>
+            {
+                userFromDb.role === 'proUser' ?  <div>
                 {/* --------------------inputComment---------------------- */}
                 <form onSubmit={handleComment}>
                     <div className="w-full mb-4 border border-gray-200 rounded-lg bg-lime-100 dark:bg-gray-700 dark:border-gray-600">
@@ -53,8 +59,15 @@ const Comment = ({ details, user, refetch }) => {
                     </div>
                 </form>
                 <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
-
+            </div> : 
+            <div>
+                <h3 className='text-gray-700 italic font-semibold'>Unlock Exclusive Benefits! <FaRegStar className='inline-block pb-1 text-2xl text-rose-500'></FaRegStar> Only subscribed members can comment here. Upgrade your experience by becoming a member today. Enjoy early access, premium content, and more!</h3>
+                <div className='flex justify-center items-center mt-2'>
+                    <Link to='/upgrade'><button className='btn text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 text-center'>Subscribe Now</button></Link>
+                </div>
             </div>
+            }
+           
         </div>
     );
 };
