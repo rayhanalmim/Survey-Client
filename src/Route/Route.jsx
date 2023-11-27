@@ -14,6 +14,7 @@ import ManageSurvey from "../Dashboard/DashboardChildren/Admin/ManageSurvey";
 import CreateSurvey from "../Dashboard/DashboardChildren/Surveyor/CreateSurvey";
 import MyPostedSurvey from "../Dashboard/DashboardChildren/Surveyor/MyPostedSurvey";
 import Feedback from "../Dashboard/DashboardChildren/Surveyor/Feedback";
+import SurveysResponse from "../Dashboard/DashboardChildren/Surveyor/SurveysResponse";
 
 const Route = createBrowserRouter([
     {
@@ -77,6 +78,10 @@ const Route = createBrowserRouter([
             {
                 path:'feedback',
                 element: <Feedback></Feedback>
+            },
+            {
+                path:'response',
+                element: <SurveysResponse></SurveysResponse>
             }
         ]
     }

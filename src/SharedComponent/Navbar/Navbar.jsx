@@ -10,7 +10,6 @@ import { MdVerified } from "react-icons/md";
 const Navbar = ({toggleMode}) => {
     const { user, logOut, looding } = useContext(AuthContext);
     const [userFromDb, ] = useUserRole()
-    console.log(userFromDb)
     
 
     if (looding) {

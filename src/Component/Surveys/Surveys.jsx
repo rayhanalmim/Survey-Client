@@ -1,17 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hook/useAxiosPublic";
 import ShowSurvey from "./ShowSurvey";
+import useAllServey from "../../Hook/useAllServey";
 
 const Surveys = () => {
     const axiosPublic = useAxiosPublic();
 
-    const { data: survey, isPending } = useQuery({
-        queryKey: ['surveyData'],
-        queryFn: async () => {
-            const res = await axiosPublic.get('/survey')
-            return res.data;
-        }
-    })
+    const [survey, isPending] = useAllServey();
+    
     if (isPending) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }

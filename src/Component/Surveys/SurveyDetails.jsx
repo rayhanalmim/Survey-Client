@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom";
-import useAxiosPublic from "../../Hook/useAxiosPublic";
-import { useQuery } from "@tanstack/react-query";
 import { useContext, useRef, useState } from "react";
 import Statisties from "./Statisties";
 import Comment from "./Comment";
@@ -10,35 +8,21 @@ import { Chart } from "react-google-charts";
 import { IoHappyOutline } from "react-icons/io5";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { MdReport } from "react-icons/md";
+import useSurvey from "../../Hook/useSurvey";
 
 
 const SurveyDetails = () => {
-    const [response, setResponse] = useState(''); // State to store the selected response
-    const axiosPublic = useAxiosPublic();
+    const [response, setResponse] = useState(''); 
+
     const axiosSecure = useAxiosSecure();
     const { user, looding } = useContext(AuthContext);
     const { id } = useParams();
-    const dataId = id;
     const reportz = useRef();
 
+    const surveyId = { id };
 
-    const { data: details, isPending, isFetching, refetch } = useQuery({
-        queryKey: ['surveyDetails'],
-        queryFn: async () => {
-            const res = await axiosPublic.get(`details/${id}`)
-            return res.data;
-        }
-    })
+    const [details, isPending, isFetching, refetch] = useSurvey(surveyId);
 
-
-    // useEffect(() => {
-    //     if (details?.voted?.includes(user.email)) {
-    //         setAlreadyVoted(true);
-    //     }
-
-    // }, [details.voted, user.email])
-
-    // console.log(alreadyVoted)
 
     if (isPending || isFetching) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
@@ -48,16 +32,12 @@ const SurveyDetails = () => {
     }
 
 
-    const { questionOne, title, description, voted, like, dislike, vote } = details;
+    const { questionOne, title, description, vote } = details;
 
-
-
-    console.log(details)
 
     const isVoted = details?.voted?.filter(person => person === user.email) || [];
     if (isVoted.length !== 0) {
         console.log('user already voted')
-        console.log(isVoted)
     }
 
     const handleResponseChange = (event) => {
@@ -71,10 +51,24 @@ const SurveyDetails = () => {
         // Handle the submission logic, e.g., send the response to the server
         if (response === 'yes' || response === 'no') {
 
-            console.log('response', response)
             axiosSecure.post(`/survey?email=${user.email}&res=${response}&surveyId=${id}`)
                 .then(res => {
                     console.log(res.data)
+                    const name = user.displayName;
+                    const email = user.email;
+                    const time = new Date();
+                    const surveyor = details.surveyor;
+                    const votedOn = details.title;
+                    const vote = response;
+                    const surveyRes = {name , email, time , vote, surveyor, votedOn};
+                    console.log(surveyRes);
+
+                    // --------------------storeDataForSurveyor-----------------
+                    axiosSecure.post('/surveyres',surveyRes)
+                    .then( res =>{
+                        console.log(res)
+                    })
+
                     refetch();
                 })
         }
@@ -100,7 +94,6 @@ const SurveyDetails = () => {
 
     const handleReport = (e) =>{
         e.preventDefault();
-        console.log('hutt')
     }
 
 
@@ -140,34 +133,13 @@ const SurveyDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div className="flex flex-col md:flex-row justify-center gap-4">
-                                    <div className="flex justify-center gap-2">
-                                        <div className="flex items-center">
-                                            <h3 className="text-lg font-medium text-[#0B0B0B">Your Donation</h3>
-                                        </div>
-                                        <div className="flex justify-center items-center">
-                                            <div className="h-2.5 w-16 mt-1 rounded-sm bg-[#5856d6]"></div>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center gap-2">
-                                        <div className="flex items-center">
-                                            <h3 className="text-lg font-medium text-[#0B0B0B">Total Donation</h3>
-                                        </div>
-                                        <div className="flex justify-center items-center">
-                                            <div className="h-2.5 w-16 rounded-sm mt-1 bg-[#ff2d55]"></div>
-                                        </div>
-                                    </div>
-                                </div> */}
                             </div>
 
                         </div>
                         <div>
                             <div>
-                                {/* <Comment id={dataId}></Comment> */}
                                 <Comment user={user} refetch={refetch} details={details}></Comment>
-
                                 {/* ---------------------------comment--------------------------- */}
-
                             </div>
 
                         </div>
@@ -215,22 +187,6 @@ const SurveyDetails = () => {
                         </div>
 
                         {/* ----------------------------modalForReport---------------------------------- */}
-
-                        {/* Open the modal using document.getElementById('ID').showModal() method */}
-                        {/* <dialog id="report" className="modal">
-                            <div className="modal-box">
-                                <form>
-                                <h3 className="font-bold text-lg text-left pb-3">Report Inappropriate Content</h3>
-                                <textarea  className="textarea textarea-bordered w-full" placeholder="Feedback" ></textarea>
-                                <div className="modal-action mt-2">
-                                    <div>
-                                        
-                                        <button className="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5  text-center= mb-2">Report</button>
-                                    </div>
-                                </div>
-                                </form>
-                            </div>
-                        </dialog> */}
 
                         <dialog id="report" className="modal">
                             <div className="modal-box">
@@ -296,8 +252,6 @@ const SurveyDetails = () => {
                     </dialog>
                 </div>
             }
-
-
         </div>
     );
 };

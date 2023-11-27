@@ -39,6 +39,10 @@ const DashNavBar = () => {
                 <div className="w-11/12">
                 <NavLink className='' to='/dashboard/feedback'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>Feedback</li></NavLink>
                 </div>
+
+                <div className="w-11/12">
+                <NavLink className='' to='/dashboard/response'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>Survey Response</li></NavLink>
+                </div>
                 
                 <div className="w-11/12">
                 <NavLink className='' to='/'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/"><FaHome className="inline-block pr-1 text-2xl"></FaHome>Back to Home</li></NavLink>

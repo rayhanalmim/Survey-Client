@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 const Comment = ({ details, user, refetch }) => {
     const [userFromDb, ] = useUserRole()
-    console.log(userFromDb)
     const axiosSecure = useAxiosSecure();
     const { questionOne, title, description, voted, like, dislike, _id, comment} = details;
 
@@ -16,7 +15,6 @@ const Comment = ({ details, user, refetch }) => {
         const comment = e.target.comment.value;
         const name = user.displayName;
         const commentInfo = {comment, name}
-        console.log(commentInfo)
 
         axiosSecure.post(`/comment?id=${_id}`, commentInfo)
         .then(res=>{
