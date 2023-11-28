@@ -13,8 +13,8 @@ import ManageUser from "../Dashboard/DashboardChildren/Admin/ManageUser";
 import ManageSurvey from "../Dashboard/DashboardChildren/Admin/ManageSurvey";
 import CreateSurvey from "../Dashboard/DashboardChildren/Surveyor/CreateSurvey";
 import MyPostedSurvey from "../Dashboard/DashboardChildren/Surveyor/MyPostedSurvey";
-import Feedback from "../Dashboard/DashboardChildren/Surveyor/Feedback";
 import SurveysResponse from "../Dashboard/DashboardChildren/Surveyor/SurveysResponse";
+import UpdateSurvey from "../Dashboard/DashboardChildren/Surveyor/UpdateSurvey";
 
 const Route = createBrowserRouter([
     {
@@ -76,12 +76,12 @@ const Route = createBrowserRouter([
                 element: <MyPostedSurvey></MyPostedSurvey>
             },
             {
-                path:'feedback',
-                element: <Feedback></Feedback>
-            },
-            {
                 path:'response',
                 element: <SurveysResponse></SurveysResponse>
+            },
+            {
+                path:'/dashboard/mypostedsurvey/:id',
+                element:<UpdateSurvey></UpdateSurvey>
             }
         ]
     }

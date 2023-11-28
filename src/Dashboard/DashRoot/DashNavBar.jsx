@@ -22,8 +22,9 @@ const DashNavBar = () => {
                 <NavLink className='' to='/dashboard/manageusers'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><GrGroup className="inline-block pr-1 text-2xl"></GrGroup>Manage Users</li></NavLink>
                 </div>
 
+                {/* --------------------adminRes----------- */}
                 <div className="w-11/12">
-                <NavLink className='' to='/dashboard/survey'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><RiBarChartGroupedLine className="inline-block pr-1 text-2xl"></RiBarChartGroupedLine>Survey</li></NavLink>
+                <NavLink className='' to='/dashboard/survey'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><RiBarChartGroupedLine className="inline-block pr-1 text-2xl"></RiBarChartGroupedLine>Survey Response</li></NavLink>
                 </div>
 
                 <div className="divider w-11/12"></div>
@@ -36,10 +37,7 @@ const DashNavBar = () => {
                 <NavLink className='' to='/dashboard/mypostedsurvey'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>My Posted Survey</li></NavLink>
                 </div>
 
-                <div className="w-11/12">
-                <NavLink className='' to='/dashboard/feedback'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>Feedback</li></NavLink>
-                </div>
-
+                {/* ----------------------userRes----------------------- */}
                 <div className="w-11/12">
                 <NavLink className='' to='/dashboard/response'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>Survey Response</li></NavLink>
                 </div>

@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useAxiosSecure from '../../Hook/useAxiosSecure';
 import ShowComment from './ShowComment';
 import useUserRole from '../../Hook/useUserRole';
 import { FaRegStar } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import useSurvey from '../../Hook/useSurvey';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '../../Hook/useAxiosPublic';
+import { AuthContext } from '../../Authentication/AuthProvider';
 
-const Comment = ({ details, user, refetch }) => {
+const Comment = ({ surveyId }) => {
     const [userFromDb, ] = useUserRole()
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
+    const {user} = useContext(AuthContext);
+    const {id} = surveyId;
+
+      const { data: details, isPending, isFetching, refetch, isLoading } = useQuery({
+        queryKey: ['surveddys'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`details/${id}`)
+            return res.data;
+        }
+    })
+
+    if (isLoading) {
+        return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
+    }
+
+
     const { questionOne, title, description, voted, like, dislike, _id, comment} = details;
+
+    console.log(id)
 
     const handleComment = (e) =>{
         e.preventDefault();
@@ -20,6 +43,7 @@ const Comment = ({ details, user, refetch }) => {
         .then(res=>{
             console.log(res.data)
             refetch()
+            e.target.comment.value = '';
         })
     }
 

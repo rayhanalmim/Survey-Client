@@ -14,7 +14,7 @@ const Statisties = ({id}) => {
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     
-    const { data: details, isPending, isFetching, refetch } = useQuery({
+    const { data: details, isPending, isFetching, refetch, isLoading } = useQuery({
         queryKey: ['surveddys'],
         queryFn: async () => {
             const res = await axiosPublic.get(`details/${id}`)
@@ -22,7 +22,7 @@ const Statisties = ({id}) => {
         }
     })
 
-    if (isPending || isFetching) {
+    if (isLoading) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
     }
 
