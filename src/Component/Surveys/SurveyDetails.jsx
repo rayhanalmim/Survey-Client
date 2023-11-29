@@ -37,7 +37,7 @@ const SurveyDetails = () => {
     const { questionOne, title, description, vote, _id } = details;
 
 
-    const isVoted = details?.voted?.filter(person => person === user.email) || [];
+    const isVoted = details?.voted?.filter(person => person === user?.email) || [];
     if (isVoted.length !== 0) {
         console.log('user already voted')
     }

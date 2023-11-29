@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthProvider";
 import useAxiosPublic from "../Hook/useAxiosPublic";
+import { FaTwitter } from "react-icons/fa";
 
 const SingIn = () => {
     const location = useLocation();
@@ -57,6 +57,7 @@ const SingIn = () => {
                 const role = 'user'
                 const userInfo = { name, email, role };
                 console.log(userInfo)
+                
                 axiosPublic.post(`/users`, userInfo)
                 .then(res => {
                     console.log(res.data);
@@ -86,12 +87,12 @@ const SingIn = () => {
 
     return (
         <div className="pb-8 bg-[#F5FF90]">
-            <div className="flex gap-7 justify-center pt-4">
-                <div className="w-1/2 pt-5">
+            <div className="flex flex-col lg:flex-row gap-7 justify-center pt-4">
+                <div className="w-1/2 hidden lg:block mx-auto pt-5">
                     <img src="https://i.ibb.co/vXVXVQD/illustration-people-login.png" alt="" />
                 </div>
 
-                <div className="w-1/2 flex-1 max-w-sm p-4  bg-lime-100 text-black border border-gray-200 rounded-lg shadow sm:p-6 md:p-8  dark:border-gray-700">
+                <div className="w-full lg:w-1/2 pb-14 mx-auto flex-1 max-w-sm p-4  bg-lime-100 text-black border border-gray-200 rounded-lg shadow sm:p-6 md:p-8  dark:border-gray-700">
                     <form onSubmit={handleLogIn} className="space-y-6">
                         <h5 className="text-xl font-medium text-gray-900 ">Sign in to our platform</h5>
                         <div>
@@ -127,7 +128,7 @@ const SingIn = () => {
                         </div>
                     </form>
                     <div className="flex justify-center items-center pt-5">
-                        <button onClick={handleGoogleLogin} className="btn btn-outline text-white bg-gray-800"><span><FcGoogle className="text-xl"></FcGoogle></span>Sing In With Google</button>
+                        <button onClick={handleGoogleLogin} className="btn btn-outline text-white bg-gray-800"><span><FaTwitter className="text-xl"></FaTwitter></span>Sing In With Twitter</button>
                     </div>
                 </div>
 

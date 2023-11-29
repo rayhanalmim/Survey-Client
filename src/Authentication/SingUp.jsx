@@ -87,9 +87,9 @@ const SingUp = () => {
     }
 
     return (
-        <div className="flex justify-center bg-[#F5FF90] pt-4">
+        <div className="flex flex-col-reverse lg:flex-row justify-center bg-[#F5FF90] pt-4">
 
-            <div className="w-1/2 max-w-sm p-4 bg-lime-100 border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 text-black dark:border-gray-700">
+            <div className="w-full mx-auto pb-10 lg:w-1/2 max-w-sm p-4 bg-lime-100 border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 text-black dark:border-gray-700">
 
                 <form onSubmit={handleSingUp} className="space-y-6">
                     <h5 className="text-xl font-medium text-gray-900 ">Create an account</h5>
@@ -139,7 +139,7 @@ const SingUp = () => {
                 </form>
             </div>
 
-            <div className="w-1/2 pl-10 pt-14">
+            <div className="w-1/2 hidden lg:block pl-10 pt-14">
                     <img src="https://i.ibb.co/vXVXVQD/illustration-people-login.png" alt="" />
                 </div>
             <ToastContainer></ToastContainer>

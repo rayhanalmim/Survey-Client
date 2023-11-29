@@ -62,7 +62,7 @@ const Statisties = ({id}) => {
                 </div>
                 <div className="stat-title">Total Likes</div>
                 <div className="stat-value text-primary">{like}</div>
-                <div className="stat-desc"> <button onClick={handleLike} className="btn btn-sm mt-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm text-center">Add Like<BiLike></BiLike></button></div>
+                <div className=""> <button onClick={handleLike} className="btn btn-sm mt-2 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium px-4 rounded-lg text-sm text-center">Like<BiLike></BiLike></button></div>
             </div>
 
             <div className="stat">
@@ -71,7 +71,9 @@ const Statisties = ({id}) => {
                 </div>
                 <div className="stat-title">Total Dislike</div>
                 <div className="stat-value text-secondary">{dislike}</div>
-                <div className="stat-desc"><button onClick={handleDislike} className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Add Dislike <BiDislike></BiDislike></button></div>
+                <div className="flex">
+                    <button onClick={handleDislike} className="btn btn-sm mt-2 text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm text-center">Dislike<BiDislike ></BiDislike></button>
+                    </div>
             </div>
 
             <div className="stat">
