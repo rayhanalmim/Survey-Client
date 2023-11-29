@@ -57,7 +57,12 @@ const Comment = ({ surveyId }) => {
                 }
             </ol>
             {
-                userFromDb.role === 'proUser' ?  <div>
+                userFromDb.role === 'user'  ? <div>
+                <h3 className='text-gray-700 italic font-semibold'>Unlock Exclusive Benefits! <FaRegStar className='inline-block pb-1 text-2xl text-rose-500'></FaRegStar> Only subscribed members can comment here. Upgrade your experience by becoming a member today. Enjoy early access, premium content, and more!</h3>
+                <div className='flex justify-center items-center mt-2'>
+                    <Link to='/upgrade'><button className='btn text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 text-center'>Subscribe Now</button></Link>
+                </div>
+            </div> :  <div>
                 {/* --------------------inputComment---------------------- */}
                 <form onSubmit={handleComment}>
                     <div className="w-full mb-4 border border-gray-200 rounded-lg bg-lime-100 dark:bg-gray-700 dark:border-gray-600">
@@ -81,13 +86,8 @@ const Comment = ({ surveyId }) => {
                     </div>
                 </form>
                 <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
-            </div> : 
-            <div>
-                <h3 className='text-gray-700 italic font-semibold'>Unlock Exclusive Benefits! <FaRegStar className='inline-block pb-1 text-2xl text-rose-500'></FaRegStar> Only subscribed members can comment here. Upgrade your experience by becoming a member today. Enjoy early access, premium content, and more!</h3>
-                <div className='flex justify-center items-center mt-2'>
-                    <Link to='/upgrade'><button className='btn text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 text-center'>Subscribe Now</button></Link>
-                </div>
-            </div>
+            </div>  
+            
             }
            
         </div>

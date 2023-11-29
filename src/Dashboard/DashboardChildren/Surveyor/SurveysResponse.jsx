@@ -40,9 +40,9 @@ const SurveysResponse = () => {
         <div>
             <Title title={'Survey Response'}></Title>
 
-            <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
+            <div className="">
 
-                <div className="flex">
+                <div className="flex flex-col lg:flex-row">
                     <div>
                         <Chart
                             chartType="PieChart"
@@ -55,7 +55,7 @@ const SurveysResponse = () => {
                             height={"300px"}
                         />
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center px-5 lg:px-0 items-center">
                         <div>
                             <h3 className="text-gray-700 font-semibold text-xl"><IoHappyOutline className="text-2xl mr-1 inline-block"></IoHappyOutline><span className=" text-red-500">Survey</span> Response Overview</h3>
                             <div className="flex items-center justify-center pt-3 pr-2">

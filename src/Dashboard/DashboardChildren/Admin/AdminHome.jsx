@@ -1,17 +1,27 @@
 import Title from "../../../Component/template/Title";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
-import useAllServey from "../../../Hook/useAllServey";
 import { useState } from "react";
 import Chart from "react-google-charts";
 import { IoHappyOutline } from "react-icons/io5";
 import useAllUser from "../../../Hook/useAllUser";
 import useAllPayment from "../../../Hook/useAllPayment";
+import useAxiosPublic from "../../../Hook/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const [clickedButton, setClickedButton] = useState(null);
 
-    const [survey, isLoading, refetch] = useAllServey()
+    const { data: survey, isLoading, refetch } = useQuery({
+        queryKey: ['surve'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/survey')
+            return res.data;
+        }
+    })
+
     const [users, userLoading] = useAllUser();
     const [payment, paymentLoading] = useAllPayment();
 
@@ -29,10 +39,6 @@ const AdminHome = () => {
     }
     console.log(survey)
 
-
-
-  
-
     const handleFeedback = (e) =>{
 
         
@@ -45,8 +51,14 @@ const AdminHome = () => {
             axiosSecure.put(`/unpublished?id=${clickedButton}`, feedBack)
             .then(res =>{
                 console.log(res.data)
+                Swal.fire({
+                    title: "Unpublished!",
+                    text: "Survey unpublished successfully.",
+                    icon: "success"
+                });
                 refetch()
             })
+            
         }
     }
     console.log(payment)
@@ -62,15 +74,16 @@ const AdminHome = () => {
         backgroundColor: 'transparent',
         is3D: true,
     };
+
     return (
         <div className="">
             <div className="pt-5">
                 <Title title='Admin Home'></Title>
             </div>
 
-            <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
+            <div className="">
 
-                <div className="flex">
+                <div className="flex flex-col lg:flex-row">
                     <div>
                         <Chart
                             chartType="PieChart"
@@ -80,7 +93,7 @@ const AdminHome = () => {
                             height={"300px"}
                         />
                     </div>
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center px-5 text-center lg:text-left  items-center">
                         <div>
                             <h3 className="text-gray-700 font-semibold text-xl"><IoHappyOutline className="text-2xl mr-1 inline-block"></IoHappyOutline><span className=" text-red-500">Survey</span> Response Overview</h3>
                             <div className="flex items-center justify-center pt-3 pr-2">

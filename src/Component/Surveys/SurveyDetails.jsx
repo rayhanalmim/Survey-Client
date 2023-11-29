@@ -136,7 +136,7 @@ const SurveyDetails = () => {
 
                             <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
 
-                                <div className="flex">
+                                <div className="flex flex-col md:flex-row">
                                     <div>
                                         <Chart
                                             chartType="PieChart"

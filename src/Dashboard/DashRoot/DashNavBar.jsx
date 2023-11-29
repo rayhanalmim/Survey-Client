@@ -1,17 +1,20 @@
-import { FaAd, FaCalendar, FaHome, FaShoppingCart } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { GrGroup } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
 import './navLink.css';
 import { BiSolidGroup } from "react-icons/bi";
 import { RiBarChartGroupedLine } from "react-icons/ri";
+import useUserRole from "../../Hook/useUserRole";
 
 const DashNavBar = () => {
+    const [userFromDb] = useUserRole()
+    console.log(userFromDb)
     return (
-        <div className="pl-5 pt-4 min-h-screen">
-            <ul className="space-y-2">
-
-                <div className="w-11/12">
-                <NavLink className='' to='/dashboard/adminhome'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><FaHome className="inline-block pr-1 text-2xl"></FaHome>Admin Home</li></NavLink>
+        <div className="pl-5 pt-4 min-h-screen z-50">
+            {
+                userFromDb.role === 'Admin' && <ul className="space-y-2 pb-2">
+                    <div className="w-11/12">
+                <NavLink className='' to='/dashboard/adminhome'><li className="border-2 bg-gray-200 tracking-widest  px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><FaHome className="inline-block pr-1 text-2xl"></FaHome>Admin Home</li></NavLink>
                 </div>
 
                 <div className="w-11/12">
@@ -26,8 +29,9 @@ const DashNavBar = () => {
                 <div className="w-11/12">
                 <NavLink className='' to='/dashboard/survey'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/dashboard/temp"><RiBarChartGroupedLine className="inline-block pr-1 text-2xl"></RiBarChartGroupedLine>Survey Response</li></NavLink>
                 </div>
-
-                <div className="divider w-11/12"></div>
+                </ul>
+            }
+            <ul className="space-y-2">
 
                 <div className="w-11/12">
                 <NavLink className='' to='/dashboard/create'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md"><FaHome className="inline-block pr-1 text-2xl"></FaHome>Create Survey</li></NavLink>
@@ -41,6 +45,8 @@ const DashNavBar = () => {
                 <div className="w-11/12">
                 <NavLink className='' to='/dashboard/response'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" ><FaHome className="inline-block pr-1 text-2xl"></FaHome>Survey Response</li></NavLink>
                 </div>
+
+                <div className="divider w-11/12"></div>
                 
                 <div className="w-11/12">
                 <NavLink className='' to='/'><li className="border-2 bg-gray-200 tracking-widest px-4 py-1 p-2 rounded-md" to="/"><FaHome className="inline-block pr-1 text-2xl"></FaHome>Back to Home</li></NavLink>

@@ -5,7 +5,7 @@ const useAllServey = () => {
     const axiosPublic = useAxiosPublic();
 
     const { data: survey, isPending, isLoading, refetch } = useQuery({
-        queryKey: ['surveyData'],
+        queryKey: ['surveyDataA'],
         queryFn: async () => {
             const res = await axiosPublic.get('/survey')
             return res.data;
