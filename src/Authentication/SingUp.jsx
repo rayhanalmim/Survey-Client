@@ -66,14 +66,12 @@ const SingUp = () => {
                     console.log(userInfo)
                     axiosPublic.post(`/users`, userInfo)
                         .then(res => {
-                            if (res.data.insertedId) {
-                                console.log(res.data);
-                                toast.success('Congratulations! Account created successfully', {
-                                    position: "top-left",
-                                    theme: "dark",
-                                });
-                            }
-                            
+                            console.log(res.data)
+                            toast.success('Congratulations! Account created successfully', {
+                                position: "top-left",
+                                theme: "dark",
+                            });
+                            navigate('/')
                         })
                 })
                 .catch(error=>console.log(error))

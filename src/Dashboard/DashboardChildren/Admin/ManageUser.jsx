@@ -1,52 +1,41 @@
-import { useQuery } from "@tanstack/react-query";
 import SubHeading from "../../../Component/template/SubHeading";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import { FaEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAllUser from "../../../Hook/useAllUser";
 
 const ManageUser = () => {
     const axiosSecure = useAxiosSecure();
 
-    const { data: users, isLoading } = useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-            const res = await axiosSecure.get('/allActiveUser')
-            console.log(res.data)
-            return res.data;
-        }
-    })
+    const [users, userLoading, userFetching] = useAllUser();
 
-    if (isLoading) {
+    if (userLoading) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
     }
 
-    const handleRole = () => {
-        console.log('hwkii')
+    const handleRole = (name, id) => {
+
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: `Add ${name} as a surveyor`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, i'm confirm!"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                });
-                // axiosSecure.delete(`/deleteSurvey?id=${id}`)
-                //     .then(res => {
-                //         console.log(res.data)
-                //         Swal.fire({
-                //             title: "Deleted!",
-                //             text: "Your file has been deleted.",
-                //             icon: "success"
-                //         });
-                //         refetch()
-                //     })
+               
+                axiosSecure.post(`/makesurveyor?id=${id}`)
+                    .then(res => {
+                        console.log(res.data)
+                        Swal.fire({
+                            title: "Added!",
+                            text: `Added ${name} as a surveyor`,
+                            icon: "success"
+                        });
+                        userFetching()
+                    })
             }
         });
     }
@@ -85,7 +74,9 @@ const ManageUser = () => {
                                     {user.role}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button onClick={handleRole} className="btn btn-sm bg-lime-200"><FaEdit className="inline-block pb-1 text-lg"></FaEdit>Make Surveyor</button>
+                                    {
+                                        user.role === 'user' || user.role === 'proUser' ? <button onClick={()=>handleRole(user.name, user._id)} className="btn btn-sm bg-lime-200"><FaEdit className="inline-block pb-1 text-lg"></FaEdit>Make Surveyor</button> : ""
+                                    }
                                 </td>
                             </tr>)
                         }

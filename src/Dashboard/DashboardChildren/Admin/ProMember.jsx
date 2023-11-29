@@ -1,20 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import Title from "../../../Component/template/Title";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import useAllPayment from "../../../Hook/useAllPayment";
 
 const ProMember = () => {
     const axiosSecure = useAxiosSecure();
 
-    const {data: payment, isLoading } = useQuery({
-        queryKey: ["payment"],
-        queryFn: async () =>{
-            const res = await axiosSecure.get('/paymentData')
-            console.log(res.data)
-            return res.data;
-        }
-    })
+    const [payment, paymentLoading, paymentRetching, isPending] = useAllPayment();
 
-    if (isLoading) {
+    if (paymentLoading) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
     }
 
@@ -40,7 +34,7 @@ const ProMember = () => {
                                 Date
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Status
+                                Payment Status
                             </th>
                         </tr>
                     </thead>
@@ -57,10 +51,10 @@ const ProMember = () => {
                                     ${pay.totalAmount}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {pay.date.slice(0, 10)}
+                                    {pay.date?.slice(0, 10)}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {pay.paymentStatus}
+                                    <span className="text-green-500 font-semibold text-base">{pay.paymentStatus}</span>
                                 </td>
                             </tr>)
                         }

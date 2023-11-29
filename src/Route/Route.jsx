@@ -15,11 +15,13 @@ import CreateSurvey from "../Dashboard/DashboardChildren/Surveyor/CreateSurvey";
 import MyPostedSurvey from "../Dashboard/DashboardChildren/Surveyor/MyPostedSurvey";
 import SurveysResponse from "../Dashboard/DashboardChildren/Surveyor/SurveysResponse";
 import UpdateSurvey from "../Dashboard/DashboardChildren/Surveyor/UpdateSurvey";
+import ErrorPage from "./ErrorPage";
 
 const Route = createBrowserRouter([
     {
         path:'/',
         element:<Root></Root>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path:'/',

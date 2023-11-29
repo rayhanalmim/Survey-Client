@@ -3,10 +3,13 @@ import Title from "../../../Component/template/Title";
 import { useContext } from "react";
 import { AuthContext } from "../../../Authentication/AuthProvider";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CreateSurvey = () => {
     const {user} = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     const { register, handleSubmit, reset } = useForm();
 
@@ -35,7 +38,13 @@ const CreateSurvey = () => {
         axiosSecure.post('/createsurvey', temp)
         .then(res=>{
             console.log(res.data)
+            Swal.fire({
+                title: "Congratulation!",
+                text: "Your survey has been created.",
+                icon: "success"
+              });
             reset();
+            navigate('/dashboard/mypostedsurvey')
         })
 
     }

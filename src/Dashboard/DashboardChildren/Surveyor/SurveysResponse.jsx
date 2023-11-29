@@ -28,19 +28,6 @@ const SurveysResponse = () => {
             return res.data;
         }
     })
-    
-
-    const data = [
-        ["Task", "20"],
-        ["Yes", 3],
-        ["No", 4],
-    ];
-
-    // console.log(data)
-
-    // const data = UserWiseSurvey.map(survey=> [survey.title, survey.vote.yes])
-  
-    // console.log(datatwo)
 
     const options = {
         legend: true,
@@ -125,31 +112,6 @@ const SurveysResponse = () => {
 
                     </tbody>
                 </table>
-                <dialog id="my_modal_1" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg pb-2">test</h3>
-                        <form>
-                            <label className="flex gap-3 pb-1">
-                                <div className="flex items-center">
-                                    <input type="radio" className="radio" value="yes" />
-                                </div>
-                                <span className="label-text text-xl font-semibold">Yes</span>
-                            </label>
-                            <label className="flex gap-3">
-                                <div className="flex items-center">
-                                    <input type="radio" className="radio" value="no" />
-                                </div>
-                                <span className="label-text text-xl font-semibold">No</span>
-                            </label>
-                        </form>
-                        <div className="flex justify-end">
-                            <form method="dialog">
-                                {/* if there is a button in form, it will close the modal */}
-                                <button className="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </dialog>
             </div>
         </div>
     );

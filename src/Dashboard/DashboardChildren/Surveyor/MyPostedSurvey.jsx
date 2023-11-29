@@ -89,6 +89,10 @@ const MyPostedSurvey = () => {
 
                                             <h3 className="font-bold mt-2 text-lg text-black pb-2">Admin Feedback: </h3>
 
+                                            {
+                                                survey.adminFeedback.length ? <span><span className='text-black font-semibold'>Unpublished For:</span> {survey.adminFeedback}</span> : 'None'
+                                            }
+
                                             <div className="flex justify-end">
                                                 <form method="dialog">
                                                     {/* if there is a button in form, it will close the modal */}

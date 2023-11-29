@@ -4,14 +4,21 @@ import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+console.log(import.meta.env.VITE_APIKEY)
+console.log(import.meta.env.VITE_AUTHDOMAIN)
+console.log(import.meta.env.VITE_PROJECTID)
+console.log(import.meta.env.VITE_STORAGEBUCKET)
+console.log(import.meta.env.VITE_MESSAGINGSENDERID)
+console.log(import.meta.env.VITE_APPID)
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC1c4JPz2PfVEru65REasjraTkSu6Cfdf8",
-  authDomain: "survey-sphere.firebaseapp.com",
-  projectId: "survey-sphere",
-  storageBucket: "survey-sphere.appspot.com",
-  messagingSenderId: "879176453275",
-  appId: "1:879176453275:web:fcb1dee112dcd40f91ca3e"
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase

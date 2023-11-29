@@ -5,13 +5,17 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Authentication/AuthProvider";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
+import useUserRole from "../../../Hook/useUserRole";
 
 const PaymentForm = () => {
     const {user} = useContext(AuthContext);
+    const [userFromDb, userRefetch] = useUserRole()
     const stripe = useStripe();
     const elements = useElements();
     const [clientSecret, setClientSecret] = useState("");
     const axiosSecure = useAxiosSecure()
+    const navigate = useNavigate()
 
     const totalPrice = 100;
 
@@ -68,6 +72,7 @@ const PaymentForm = () => {
         }
         else{
             console.log('payment success:',paymentIntent)
+            
             if(paymentIntent.status === 'succeeded'){
                 Swal.fire({
                     position: "top-end",
@@ -76,6 +81,7 @@ const PaymentForm = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                
 
                 const paymentInfo = {
                     email: user.email,
@@ -86,7 +92,10 @@ const PaymentForm = () => {
                 }
                 console.log(paymentInfo);
                 const saveDatabase = await axiosSecure.post('/payment', paymentInfo)
+                userRefetch();
                 console.log(saveDatabase.data)
+                navigate('/')
+                
             }
         }
     }
