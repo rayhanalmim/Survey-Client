@@ -26,7 +26,7 @@ const CreateSurvey = () => {
             "likesBy": [],
             "dislikesBy": [],
             "timestamp": new Date(),
-            "status": "publish",
+            "status": "pending",
             "feedback": [],
             "comment": [],
             "report": [],

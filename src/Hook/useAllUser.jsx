@@ -9,7 +9,6 @@ const useAllUser = () => {
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axiosSecure.get('/allActiveUser')
-            console.log(res.data)
             return res.data;
         }
     })

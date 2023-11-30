@@ -23,7 +23,7 @@ const SurveysResponse = () => {
     const { data: surveyResponse = [] } = useQuery({
         queryKey: ['response', user.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/surveyres?email=${user.email}`)
+            const res = await axiosSecure.get(`/surveyres?email=${user.email}`, )
             console.log(res.data)
             return res.data;
         }

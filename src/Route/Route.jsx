@@ -16,6 +16,7 @@ import MyPostedSurvey from "../Dashboard/DashboardChildren/Surveyor/MyPostedSurv
 import SurveysResponse from "../Dashboard/DashboardChildren/Surveyor/SurveysResponse";
 import UpdateSurvey from "../Dashboard/DashboardChildren/Surveyor/UpdateSurvey";
 import ErrorPage from "./ErrorPage";
+import PrivateRoute from "./PrivateRoute";
 
 const Route = createBrowserRouter([
     {
@@ -37,7 +38,7 @@ const Route = createBrowserRouter([
             },
             {
                 path:'details/:id',
-                element:<SurveyDetails></SurveyDetails>
+                element: <PrivateRoute><SurveyDetails></SurveyDetails></PrivateRoute>
             },
             {
                 path:'login',

@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://survey-sphere-server.vercel.app',
+    withCredentials: true
   });
-  // https://survey-sphere-server.vercel.app
+  // https://survey-sphere-server.vercel.app https://survey-sphere-server.vercel.app/
 
 const useAxiosPublic = () => {
     return axiosPublic;

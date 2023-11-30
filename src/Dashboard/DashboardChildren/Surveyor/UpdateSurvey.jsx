@@ -13,9 +13,12 @@ const UpdateSurvey = () => {
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const objectId = {id};
-    const [details, isPending, isFetching, refetch] = useSurvey(objectId);
+    const [details, isPending, isFetching, refetch, isLoading] = useSurvey(objectId);
     console.log(details);
     const { questionOne, title, description, vote, _id, category } = details;
+    if (isLoading) {
+        return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
+    }
 
     
 

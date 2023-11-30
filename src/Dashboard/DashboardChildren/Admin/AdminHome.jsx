@@ -8,6 +8,7 @@ import useAllPayment from "../../../Hook/useAllPayment";
 import useAxiosPublic from "../../../Hook/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import moment from "moment/moment";
 
 const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -37,14 +38,9 @@ const AdminHome = () => {
     if (isLoading) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }
-    console.log(survey)
 
     const handleFeedback = (e) =>{
-
-        
-
         if(clickedButton !== 'button2'){
-            console.log(clickedButton)
             console.log(e.target.feedback.value)
             const report = e.target.feedback.value;
             const feedBack = {report}
@@ -61,6 +57,21 @@ const AdminHome = () => {
             
         }
     }
+
+    const handlePublish = (id) =>{
+        console.log(id)
+        axiosSecure.put(`/published?id=${id}`)
+        .then(res =>{
+            console.log(res.data)
+            Swal.fire({
+                title: "Published!",
+                text: "Survey unpublished successfully.",
+                icon: "success"
+            });
+            refetch()
+        })
+    }
+
     console.log(payment)
     const data = [
         ["Task", "20"],
@@ -95,8 +106,9 @@ const AdminHome = () => {
                     </div>
                     <div className="flex justify-center px-5 text-center lg:text-left  items-center">
                         <div>
+                        <p className="text-black tracking-widest font-medium text-xl">{moment().format("dddd, MMMM D, YYYY")}</p>
                             <h3 className="text-gray-700 font-semibold text-xl"><IoHappyOutline className="text-2xl mr-1 inline-block"></IoHappyOutline><span className=" text-red-500">Survey</span> Response Overview</h3>
-                            <div className="flex items-center justify-center pt-3 pr-2">
+                            <div className="flex items-center justify-center pt-2 pr-2">
                                 <h3>Welcome to your personalized survey response chart. Here, we have translated your feedback into a visual format for a clearer understanding. Delve into the details and discover the visual story of your survey responses.</h3>
 
                             </div>
@@ -146,9 +158,15 @@ const AdminHome = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {
-                                        survey.status === 'publish' ? <button className="btn btn-sm text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm" onClick={() => document.getElementById(`my_modal_${idx}`).showModal()}>Unpublish</button> : <div><h3 className="font-semibold text-red-600">Unpublished</h3></div>
+                                        survey.status === 'publish' && <button className="btn btn-sm text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm" onClick={() => document.getElementById(`my_modal_${idx}`).showModal()}>Unpublish</button> 
                                     }
-                                
+                                    
+                                    {
+                                        survey.status === 'unpublish' && <div><h3 className="font-semibold text-red-600">Unpublished</h3></div>
+                                    }
+                                    {
+                                        survey.status === 'pending' && <button className="btn btn-sm text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 tracking-widest text-center" onClick={() => handlePublish(survey._id)}>Publish</button> 
+                                    }
 
                                     {/* -----------------------------modal------------------------------- */}
                                     <dialog id={`my_modal_${idx}`} className="modal">

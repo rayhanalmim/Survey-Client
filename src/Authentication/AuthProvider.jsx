@@ -5,7 +5,7 @@ import auth from "./firebase.config";
 import axios from "axios";
 
 export const AuthContext = createContext(null);
-// const GoogleProvider = new GoogleAuthProvider();
+const GoogleProvider = new GoogleAuthProvider();
 const twitterProvider = new TwitterAuthProvider()
 
 const AuthProvider = ({children}) => {
@@ -13,6 +13,10 @@ const AuthProvider = ({children}) => {
     const [looding, setLooding] = useState(true);
     
     const singInWithGoogle = () =>{
+        return signInWithPopup(auth, GoogleProvider);
+    }
+
+    const singInWithTwitter = () =>{
         return signInWithPopup(auth, twitterProvider);
     }
 
@@ -35,25 +39,25 @@ const AuthProvider = ({children}) => {
             console.log(currentUser);
             setLooding(false);
 
-            // if(currentUser){
-            //     axios.post('http://localhost:5000/jwt',loggedUser, {withCredentials: true})
-            //     .then(res => {
-            //         console.log(res.data);
-            //     })
-            // }
-            // else{
-            //     axios.post('/http://localhost:5000/logout', userEmail, {withCredentials: true})
-            //     .then(res =>{
-            //         console.log('log out user and cookies:', res.data);
-            //     })
-            // }
+            if(currentUser){
+                axios.post('https://survey-sphere-server.vercel.app/jwt',loggedUser, {withCredentials: true})
+                .then(res => {
+                    console.log(res.data);
+                })
+            }
+            else{
+                axios.post('https://survey-sphere-server.vercel.app/logout', userEmail, {withCredentials: true})
+                .then(res =>{
+                    console.log('log out user and cookies:', res.data);
+                })
+            }
         })
         return () =>{
             return unSubscribe();
         }
     }, []);
 
-    const authInfo = {singInWithGoogle, createUser, singIn, logOut , user, looding}
+    const authInfo = {singInWithGoogle, singInWithTwitter, createUser, singIn, logOut , user, looding}
 
     return (
         <AuthContext.Provider value={authInfo}>

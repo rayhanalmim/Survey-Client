@@ -9,7 +9,7 @@ const useUserRole = () => {
     const { data: userFromDb = [], isPending, isFetching, refetch: userRefetch } = useQuery({
                 queryKey: ['user', user?.email],
                 queryFn: async() => {
-                    const res = await axios.get(`http://localhost:5000/role?user=${user.email}`)
+                    const res = await axios.get(`https://survey-sphere-server.vercel.app/role?user=${user.email}`)
                     return res.data;
                 }
             })

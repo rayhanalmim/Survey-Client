@@ -5,14 +5,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthProvider";
 import useAxiosPublic from "../Hook/useAxiosPublic";
-import { FaTwitter } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { FaGoogle, FaTwitter } from "react-icons/fa";
 
 const SingIn = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
     const emailRef = useRef(null);
-    const { singIn, singInWithGoogle, looding } = useContext(AuthContext);
+    const { singIn, singInWithGoogle, looding, singInWithTwitter } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
 
     if (looding) {
@@ -57,23 +58,62 @@ const SingIn = () => {
                 const role = 'user'
                 const userInfo = { name, email, role };
                 console.log(userInfo)
-                
-                axiosPublic.post(`/users`, userInfo)
-                .then(res => {
-                    console.log(res.data);
-                    if (res.data._id) {
-                        console.log('updated in database successfully')
-                        
-                    }
-                    toast.success('log in successfully', {
-                        position: "top-left",
-                        theme: "dark",
-                    });
-                    navigate(location?.state ? location.state : '/')
-                })
 
-                
-                
+                axiosPublic.post(`/users`, userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data._id) {
+                            console.log('updated in database successfully')
+
+                        }
+                        toast.success('log in successfully', {
+                            position: "top-left",
+                            theme: "dark",
+                        });
+                        navigate(location?.state ? location.state : '/')
+                    })
+
+
+
+            })
+            .catch(error => {
+                const errorMessage = error.message;
+                console.error(errorMessage);
+                toast.error(errorMessage, {
+                    position: "top-left",
+                    theme: "dark",
+                });
+            })
+    }
+
+    const handleTwitterLogin = () => {
+
+        singInWithTwitter()
+            .then((res) => {
+
+                console.log(res.user);
+                const name = res.user.displayName;
+                const email = res.user.email;
+                const role = 'user'
+                const userInfo = { name, email, role };
+                console.log(userInfo)
+
+                axiosPublic.post(`/users`, userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data._id) {
+                            console.log('updated in database successfully')
+
+                        }
+                        toast.success('log in successfully', {
+                            position: "top-left",
+                            theme: "dark",
+                        });
+                        navigate(location?.state ? location.state : '/')
+                    })
+
+
+
             })
             .catch(error => {
                 const errorMessage = error.message;
@@ -128,7 +168,9 @@ const SingIn = () => {
                         </div>
                     </form>
                     <div className="flex justify-center items-center pt-5">
-                        <button onClick={handleGoogleLogin} className="btn btn-outline text-white bg-gray-800"><span><FaTwitter className="text-xl"></FaTwitter></span>Sing In With Twitter</button>
+                        <button onClick={handleGoogleLogin} className="btn text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"><span><FcGoogle className="text-xl"></FcGoogle></span> Google</button>
+
+                        <button onClick={handleTwitterLogin} className="btn text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"><span><FaTwitter className="text-xl"></FaTwitter></span> Twitter</button>
                     </div>
                 </div>
 

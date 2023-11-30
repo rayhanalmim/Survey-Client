@@ -9,8 +9,7 @@ const ShowSurvey = ({ surveyData }) => {
     console.log()
     return (
         <div>
-            {
-                status === 'publish' && <div className="p-4 bg-lime-100 h-48 border rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel" aria-labelledby="about-tab">
+             <div className="p-4 bg-lime-100 h-48 border rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel" aria-labelledby="about-tab">
                 <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{title}</h2>
                 <p className="text-gray-500 dark:text-gray-400">{slicedString}...</p>
 
@@ -26,8 +25,6 @@ const ShowSurvey = ({ surveyData }) => {
                     </Link>
                 </div>
             </div> 
-            }
-            
         </div>
     );
 };
