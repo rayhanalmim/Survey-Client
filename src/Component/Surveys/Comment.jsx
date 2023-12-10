@@ -16,7 +16,7 @@ const Comment = ({ surveyId }) => {
     const {user} = useContext(AuthContext);
     const {id} = surveyId;
 
-      const { data: details, isPending, isFetching, refetch, isLoading } = useQuery({
+      const { data: details, refetch, isLoading } = useQuery({
         queryKey: ['surveddys'],
         queryFn: async () => {
             const res = await axiosPublic.get(`details/${id}`)
@@ -29,9 +29,8 @@ const Comment = ({ surveyId }) => {
     }
 
 
-    const { questionOne, title, description, voted, like, dislike, _id, comment} = details;
+    const {  _id, comment} = details;
 
-    console.log(id)
 
     const handleComment = (e) =>{
         e.preventDefault();
@@ -40,8 +39,7 @@ const Comment = ({ surveyId }) => {
         const commentInfo = {comment, name}
 
         axiosSecure.post(`/comment?id=${_id}`, commentInfo)
-        .then(res=>{
-            console.log(res.data)
+        .then(()=>{
             refetch()
             e.target.comment.value = '';
         })

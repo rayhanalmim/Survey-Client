@@ -1,13 +1,10 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "./Payment/PaymentForm";
-import useUserRole from "../../Hook/useUserRole";
 
 const stripePromise = loadStripe('pk_test_51OEnfwEKCviqmDKyovTyS1fPNeXHWySowVMQJgXcRuVjxifQIoOTvKA3eYpVy0DM7WZryJocappXPKsZnzJd92ej00HUuuu5Ew');
 
 const UpgradePro = () => {
-    const [userFromDb, ] = useUserRole()
-    console.log(userFromDb)
     
     return (
         <div className="px-0 lg:px-3 bg-[#F5FF90]">

@@ -23,7 +23,7 @@ const SurveyDetails = () => {
 
     const surveyId = { id };
 
-    const [details, isPending, isFetching, refetch, isLoading] = useSurvey(surveyId);
+    const [details, isPending, isFetching, refetch] = useSurvey(surveyId);
 
 
     if (isPending || isFetching) {
@@ -38,9 +38,6 @@ const SurveyDetails = () => {
 
 
     const isVoted = details?.voted?.filter(person => person === user?.email) || [];
-    if (isVoted.length !== 0) {
-        console.log('user already voted')
-    }
 
     const handleResponseChange = (event) => {
 
@@ -50,13 +47,11 @@ const SurveyDetails = () => {
 
 
     const handleSubmit = () => {
-        console.log('submitHit')
         // Handle the submission logic, e.g., send the response to the server
         if (response === 'yes' || response === 'no') {
 
             axiosSecure.post(`/survey?email=${user.email}&res=${response}&surveyId=${id}`)
-                .then(res => {
-                    console.log(res.data)
+                .then(() => {
                     const name = user.displayName;
                     const email = user.email;
                     const time = new Date();
@@ -64,12 +59,10 @@ const SurveyDetails = () => {
                     const votedOn = details.title;
                     const vote = response;
                     const surveyRes = { name, email, time, vote, surveyor, votedOn };
-                    console.log(surveyRes);
 
                     // --------------------storeDataForSurveyor-----------------
                     axiosSecure.post('/surveyres', surveyRes)
-                        .then(res => {
-                            console.log(res)
+                        .then(() => {
                         })
 
                     refetch();
@@ -96,15 +89,11 @@ const SurveyDetails = () => {
     };
 
     const handleReport = async() => {
-        console.log('report')
-        console.log(reportz.current.value)
         const report = reportz.current.value;
         const userName = user.displayName;
         const info = {report, userName}
-        console.log(info, _id)
 
         const res = await axiosSecure.post(`/feedback?id=${_id}`, info )
-        console.log(res.data)
         if(res.data.modifiedCount){
             toast.info('Reported successfully!', {
                 position: "top-left",

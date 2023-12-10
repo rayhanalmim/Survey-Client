@@ -11,7 +11,6 @@ const useWisePostedSurvey = () => {
         queryKey: ['UserWiseSurvey', user.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/userwisesurver?email=${user.email}`)
-            console.log(res.data)
             return res.data;
         }
     })

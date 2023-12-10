@@ -1,25 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import useUserRole from "../../Hook/useUserRole";
 import useAxiosPublic from "../../Hook/useAxiosPublic";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-    const [userFromDb] = useUserRole()
-    console.log(userFromDb)
     const axiosPublic = useAxiosPublic()
 
     const { data: topSurvey, isLoading } = useQuery({
         queryKey: ['topSurvey'],
         queryFn: async () => {
             const res = await axiosPublic.get('/topSurvey')
-            console.log(res.data)
             return res.data;
         }
     })
     if (isLoading) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }
-    console.log(topSurvey)
 
     return (
         <div className="bg-[#F5FF90]">

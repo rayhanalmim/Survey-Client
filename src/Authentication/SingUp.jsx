@@ -6,21 +6,24 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthProvider";
 import { updateProfile } from "firebase/auth";
 import useAxiosPublic from "../Hook/useAxiosPublic";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+
+const apiKey = '3e477ce4b247b31f42c9d294e9979cbe';
+const imageHostingApi = `https://api.imgbb.com/1/upload?key=${apiKey}`
 
 const SingUp = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit } = useForm();
     const { createUser } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
 
-    const handleSingUp = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        const name = e.target.name.value;
-        const img = e.target.image.value;
-
-        console.log(email, password)
+    const onSubmit = async(data) => {
+        const email = data.email;
+        const password = data.password;
+        const name = data.name;
+        const img = data?.image;
 
         if (password.length < 6) {
             toast.error('Password length must be at least six characters', {
@@ -29,6 +32,13 @@ const SingUp = () => {
             });
             return;
         }
+
+        const imageFile = {image: data.image[0]}
+        const res = await axios.post(imageHostingApi, imageFile, {
+            headers: {
+                "content-type": "multipart/form-data",
+              }
+        });
 
         // const isContainsUppercase = /^(?=.*[A-Z]).*$/;
         // const specialCharacter = /[!@#$%^&*(),.?":{}|<>]/;
@@ -53,28 +63,25 @@ const SingUp = () => {
                 result.user.displayName = name;
                 result.user.photoURL = img;
 
-                updateProfile(currentUser,{
-                    displayName: name, 
-                    photoURL: img,
+                updateProfile(currentUser, {
+                    displayName: name,
+                    photoURL: res.data?.data?.display_url,
                 })
-                .then(()=>{
-                    console.log(result)
-                    const name =  currentUser.displayName;
-                    const email = currentUser.email;
-                    const role = 'user';
-                    const userInfo = { name, email, role };
-                    console.log(userInfo)
-                    axiosPublic.post(`/users`, userInfo)
-                        .then(res => {
-                            console.log(res.data)
-                            toast.success('Congratulations! Account created successfully', {
-                                position: "top-left",
-                                theme: "dark",
-                            });
-                            navigate('/')
-                        })
-                })
-                .catch(error=>console.log(error))
+                    .then(() => {
+                        const name = currentUser.displayName;
+                        const email = currentUser.email;
+                        const role = 'user';
+                        const userInfo = { name, email, role };
+                        axiosPublic.post(`/users`, userInfo)
+                            .then(() => {
+                                toast.success('Congratulations! Account created successfully', {
+                                    position: "top-left",
+                                    theme: "dark",
+                                });
+                                navigate('/')
+                            })
+                    })
+                    .catch(error => console.log(error))
             })
             .catch(error => {
                 const errorMessage = error.message;
@@ -91,22 +98,27 @@ const SingUp = () => {
 
             <div className="w-full mx-auto pb-10 lg:w-1/2 max-w-sm p-4 bg-lime-100 border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 text-black dark:border-gray-700">
 
-                <form onSubmit={handleSingUp} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <h5 className="text-xl font-medium text-gray-900 ">Create an account</h5>
                     <div className="space-y-3">
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 ">Enter Your Name</label>
-                            <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " placeholder="Your Name" required />
+                            <input type="text" {...register("name")} id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " placeholder="Your Name" required />
                         </div>
 
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 ">Enter Your image URL</label>
-                            <input type="text" name="img" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " placeholder="Your image URL" required />
+                            <div className="label">
+                                <span className="block text-sm font-medium text-gray-900 ">Select Profile Pic</span>
+                            </div>
+                            <label className="w-full max-w-xs">
+                                <input type="file" {...register("image")} className="fbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400" />
+
+                            </label>
                         </div>
 
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 ">Enter Your Email</label>
-                            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " placeholder="Email Address" required />
+                            <input type="email" {...register("email")} id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " placeholder="Email Address" required />
                         </div>
 
                     </div>
@@ -115,7 +127,7 @@ const SingUp = () => {
                         <input
 
                             type={!showPassword ? "password" : "text"}
-                            name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " required />
+                            {...register("password")} id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 " required />
                         <span onClick={() => setShowPassword(!showPassword)} className="absolute bottom-3.5 hidden md:block left-72">
 
                             {
@@ -140,8 +152,8 @@ const SingUp = () => {
             </div>
 
             <div className="w-1/2 hidden lg:block pl-10 pt-14">
-                    <img src="https://i.ibb.co/vXVXVQD/illustration-people-login.png" alt="" />
-                </div>
+                <img src="https://i.ibb.co/vXVXVQD/illustration-people-login.png" alt="" />
+            </div>
             <ToastContainer></ToastContainer>
         </div>
     );

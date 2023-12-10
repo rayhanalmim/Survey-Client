@@ -24,7 +24,6 @@ const SurveysResponse = () => {
         queryKey: ['response', user.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/surveyres?email=${user.email}`, )
-            console.log(res.data)
             return res.data;
         }
     })

@@ -9,12 +9,10 @@ const Surveys = () => {
     if (isPending) {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }
-    console.log(survey);
 
 
     const handleSortChange = (event) => {
         const selectedValue = event.target.value;
-        console.log('Selected value:', selectedValue);
 
         if (selectedValue === 'vote') {
             const calculateSum = (entry) => {
@@ -43,7 +41,6 @@ const Surveys = () => {
     };
 
     const filter = survey.filter(item => item.status === 'publish')
-    console.log(filter)
 
 
 

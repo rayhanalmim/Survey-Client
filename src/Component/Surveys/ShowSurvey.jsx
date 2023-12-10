@@ -6,7 +6,6 @@ const ShowSurvey = ({ surveyData }) => {
 
     const slicedString = description.slice(0, 130);
 
-    console.log()
     return (
         <div>
              <div className="p-4 bg-lime-100 h-48 border rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel" aria-labelledby="about-tab">

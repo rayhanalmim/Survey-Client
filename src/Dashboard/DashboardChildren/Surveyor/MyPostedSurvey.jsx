@@ -15,7 +15,6 @@ const MyPostedSurvey = () => {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>;
     }
     const [UserWiseSurvey, isPending, isFetching, refetch] = useWisePostedSurvey();
-    console.log(UserWiseSurvey)
 
     const handleDelete = (id) => {
         Swal.fire({

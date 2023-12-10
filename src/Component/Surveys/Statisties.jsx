@@ -14,7 +14,7 @@ const Statisties = ({id}) => {
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     
-    const { data: details, isPending, isFetching, refetch, isLoading } = useQuery({
+    const { data: details, refetch, isLoading } = useQuery({
         queryKey: ['surveddys'],
         queryFn: async () => {
             const res = await axiosPublic.get(`details/${id}`)
@@ -26,28 +26,21 @@ const Statisties = ({id}) => {
         return <div className="flex justify-center"><span className="loading loading-spinner loading-md"></span></div>
     }
 
-    const { questionOne, title, description, voted, like, dislike,timestamp, _id, likesBy, dislikesBy} = details;
+    const {  voted, like, dislike,timestamp, _id} = details;
     const date = timestamp.slice(0,10)
-    console.log('dislike',dislikesBy)
-    console.log('likes',likesBy)
 
     const handleLike = () =>{
         setlikes(!likes)
-        console.log(likes)
-        console.log(likes, user.email)
         axiosSecure.post(`/likes?value=${likes}&user=${user.email}&id=${_id}`)
-        .then(res=>{
-            console.log(res.data)
+        .then(()=>{
             refetch()
             setDisLike(true)
         })
     }
     const handleDislike = () =>{
         setDisLike(!disLike)
-        console.log(disLike, user.email)
         axiosSecure.post(`/dislike?value=${disLike}&user=${user.email}&id=${_id}`)
-        .then(res=>{
-            console.log(res.data)
+        .then(()=>{
             refetch()
             setlikes(true)
         })

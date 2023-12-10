@@ -4,7 +4,6 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useSurvey = ({id}) => {
     const axiosPublic = useAxiosPublic();
-    console.log(id)
 
     const { data: details = [], isPending, isFetching, refetch, isLoading } = useQuery({
         queryKey: ['surveys', id],

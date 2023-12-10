@@ -72,7 +72,6 @@ const AdminHome = () => {
         })
     }
 
-    console.log(payment)
     const data = [
         ["Task", "20"],
         ["Total Post", survey.length],

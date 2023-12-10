@@ -51,21 +51,13 @@ const SingIn = () => {
 
         singInWithGoogle()
             .then((res) => {
-
-                console.log(res.user);
                 const name = res.user.displayName;
                 const email = res.user.email;
                 const role = 'user'
                 const userInfo = { name, email, role };
-                console.log(userInfo)
 
                 axiosPublic.post(`/users`, userInfo)
-                    .then(res => {
-                        console.log(res.data);
-                        if (res.data._id) {
-                            console.log('updated in database successfully')
-
-                        }
+                    .then(() => {
                         toast.success('log in successfully', {
                             position: "top-left",
                             theme: "dark",
@@ -90,21 +82,13 @@ const SingIn = () => {
 
         singInWithTwitter()
             .then((res) => {
-
-                console.log(res.user);
                 const name = res.user.displayName;
                 const email = res.user.email;
                 const role = 'user'
                 const userInfo = { name, email, role };
-                console.log(userInfo)
 
                 axiosPublic.post(`/users`, userInfo)
-                    .then(res => {
-                        console.log(res.data);
-                        if (res.data._id) {
-                            console.log('updated in database successfully')
-
-                        }
+                    .then(() => {
                         toast.success('log in successfully', {
                             position: "top-left",
                             theme: "dark",

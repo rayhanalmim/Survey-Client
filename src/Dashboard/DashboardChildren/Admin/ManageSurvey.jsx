@@ -10,7 +10,6 @@ const ManageSurvey = () => {
         queryKey: ["allRespomse"],
         queryFn: async () =>{
             const res = await axiosSecure.get('/allserveyresponse')
-            console.log(res.data)
             return res.data;
         }
     })

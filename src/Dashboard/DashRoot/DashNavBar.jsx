@@ -8,9 +8,8 @@ import useUserRole from "../../Hook/useUserRole";
 
 const DashNavBar = () => {
     const [userFromDb] = useUserRole()
-    console.log(userFromDb)
     return (
-        <div className="pl-5 pt-4 min-h-screen z-50">
+        <div className="pl-5 pt-4 pb-2  md:min-h-screen z-50">
             {
                 userFromDb.role === 'Admin' && <ul className="space-y-2 pb-2">
                     <div className="w-11/12">
